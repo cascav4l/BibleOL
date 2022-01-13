@@ -1,8 +1,4 @@
 <?php
-echo "<P>Students:<BR>" . print_r($students, true) . "</P>";
-echo "<P>resscoreall:<BR>" . print_r($resscoreall, true) . "</P>";
-echo "<P>resscoreall_ind:<BR>" . print_r($resscoreall_ind, true) . "</P>";
-echo "<P>resfeatall:<BR>" . print_r($resfeatall, true) . "</P>";
     $valerr = validation_errors();
     if (!empty($valerr))
         echo "<div class=\"alert alert-danger\">$valerr</div>\n";
