@@ -768,7 +768,8 @@ class Mod_grades extends CI_Model {
 
         $query = $this->db
             ->from('exam_results er')
-            ->select('rf.name rfname,sum(`rf`.`correct`)/q.tot_questions*100 `pct`')
+            // ->select('rf.name rfname,sum(`rf`.`correct`)/q.tot_questions*100 `pct`')
+            ->select('rf.name rfname,sum(`rf`.`correct`)/count(*)*100 `pct`')
             ->join('sta_quiz q','q.id=er.quizid')
             ->join('sta_question quest','quest.quizid=q.id')
             ->join('sta_requestfeature rf','quest.id=rf.questid')
@@ -784,7 +785,8 @@ class Mod_grades extends CI_Model {
                 // ->where('q.start <=',$period_end)
                 ->where('end IS NOT NULL')
                 ->where('valid',1)
-                ->group_by('q.id,rfname')
+                // ->group_by('q.id,rfname')
+                ->group_by('rfname')
                 ->get();
         } else {
           // MRCN
@@ -794,9 +796,10 @@ class Mod_grades extends CI_Model {
                   // ->where('q.start <=',$period_end)
                   ->where('end IS NOT NULL')
                   ->where('valid',1)
-                  ->group_by('q.id, rfname')
+                  ->group_by('rfname')
                   // ->group_by('q.id, rfname')
-                  ->order_by('pct desc')
+                  // // ->group_by('q.id, rfname')
+                  // ->order_by('pct desc')
                   ->get();
         }
 
