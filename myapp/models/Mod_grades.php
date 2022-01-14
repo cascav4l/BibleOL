@@ -750,9 +750,10 @@ class Mod_grades extends CI_Model {
                   ->where('q.start <=',$period_end)
                   ->where('end IS NOT NULL')
                   ->where('valid',1)
-                  ->group_by('q.id, rfname')
+                  ->group_by('rfname')
                   // ->group_by('q.id, rfname')
-                  ->order_by('pct desc')
+                  // // ->group_by('q.id, rfname')
+                  // ->order_by('pct desc')
                   ->get();
         }
 
