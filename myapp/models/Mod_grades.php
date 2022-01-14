@@ -484,16 +484,14 @@ class Mod_grades extends CI_Model {
           $query = $this->db
           ->from('sta_quiz q')
           //
-          // ->select('q.id,`start`,`end`-`start` `duration`,sum(`rf`.`correct`) `correct`,q.tot_questions `cnt`, sum(`rf`.`correct`)/q.tot_questions*100 `perc`',false)
-          ->select('q.id,`start`,`end`-`start` `duration`,sum(`rf`.`correct`) `correct`,count(*) `cnt`',false)
+          ->select('q.id,`start`,`end`-`start` `duration`,sum(`rf`.`correct`) `correct`,q.tot_questions `cnt`, sum(`rf`.`correct`)/q.tot_questions*100 `perc`',false)
           ->join('sta_question quest','quest.quizid=q.id')
           ->join('sta_requestfeature rf','quest.id=rf.questid')
           ->where('rf.userid',$uid);
         } else {
           $query = $this->db
           ->from('sta_quiz q')
-          // ->select('q.id,`start`,`end`-`start` `duration`,sum(`rf`.`correct`) `correct`,q.tot_questions `cnt`, sum(`rf`.`correct`)/q.tot_questions*100 `perc`',false)
-          ->select('q.id,`start`,`end`-`start` `duration`,sum(`rf`.`correct`) `correct`,count(*) `cnt`',false)
+          ->select('q.id,`start`,`end`-`start` `duration`,sum(`rf`.`correct`) `correct`,q.tot_questions `cnt`, sum(`rf`.`correct`)/q.tot_questions*100 `perc`',false)
           ->join('sta_question quest','quest.quizid=q.id')
           ->join('sta_requestfeature rf','quest.id=rf.questid')
           ->where('rf.userid',$uid);
@@ -725,7 +723,8 @@ class Mod_grades extends CI_Model {
 
         $query = $this->db
             ->from('sta_quiz q')
-            ->select('rf.name rfname,sum(`rf`.`correct`)/q.tot_questions*100 `pct`')
+            // ->select('rf.name rfname,sum(`rf`.`correct`)/q.tot_questions*100 `pct`')
+            ->select('rf.name rfname,sum(`rf`.`correct`)/count(*)*100 `pct`')
             ->join('sta_question quest','quest.quizid=q.id')
             ->join('sta_requestfeature rf','quest.id=rf.questid')
             ->where('rf.userid',$uid);
@@ -740,7 +739,8 @@ class Mod_grades extends CI_Model {
                 ->where('q.start <=',$period_end)
                 ->where('end IS NOT NULL')
                 ->where('valid',1)
-                ->group_by('q.id,rfname')
+                // ->group_by('q.id,rfname')
+                ->group_by('rfname')
                 ->get();
         } else {
           // MRCN
