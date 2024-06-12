@@ -61,123 +61,6 @@ class Ctrl_grades extends MY_Controller {
         // }
     }
 
-
-    // public function student_exercise() {
-    //
-		// $this->load->model('mod_users');
-		// $this->load->model('mod_grades');
-    //     $this->load->library('statistics_timeperiod',array('default_period'=>'short'));
-    //
-		// try {
-    //         $this->load->helper('form');
-    //         $this->load->library('form_validation');
-    //         $this->load->library('db_config');
-    //
-    //         $this->form_validation->set_data($_GET);
-    //
-    //         $this->statistics_timeperiod->set_validation_rules();
-    //         $this->form_validation->set_rules('templ', 'Template', 'required');
-    //         $this->form_validation->set_rules('userid', 'User ID', 'required');
-    //         $this->form_validation->set_rules('nongraded', '', 'callback_always_true');  // Dummy rule. At least one rule is required
-    //
-    //         $templ = $this->input->get('templ');
-    //         $nongraded = $this->input->get('nongraded')=='on';
-    //
-    //         $userid = $this->input->get('userid');
-    //         if (is_null($userid))
-    //             $userid = $this->mod_users->my_id();
-    //         else
-    //             $userid = (int)$userid;
-    //
-    //         $may_see_nongraded = $this->mod_grades->may_see_nongraded($userid, $templ);
-    //
-		// 	if ($this->form_validation->run()) {
-    //             $this->statistics_timeperiod->ok_dates();
-    //
-    //             if (!$this->mod_users->is_teacher() && $userid!=$this->mod_users->my_id())
-    //                 throw new DataException($this->lang->line('illegal_user_id'));
-    //
-    //             $see_nongraded = $nongraded && $may_see_nongraded;
-    //
-    //             $templs = $this->mod_grades->get_templids_for_pathname_and_user($templ, $userid);
-    //
-    //             $resscore = $this->mod_grades->get_score_by_date_user_templ($userid,
-    //                                                                             $templs,
-    //                                                                             $this->statistics_timeperiod->start_timestamp(),
-    //                                                                             $this->statistics_timeperiod->end_timestamp(),
-    //                                                                             $see_nongraded);
-    //
-    //
-    //             $resfeat = $this->mod_grades->get_features_by_date_user_templ($userid,
-    //                                                                               $templs,
-    //                                                                               $this->statistics_timeperiod->start_timestamp(),
-    //                                                                               $this->statistics_timeperiod->end_timestamp(),
-    //                                                                               $see_nongraded);
-    //
-    //             // Localize feature names
-    //
-    //             if (!empty($resfeat)) {
-    //                 // We assume that the underlying database information never changed
-    //                 $dbnames = $this->mod_grades->get_templ_db($templs);
-    //                 $this->db_config->init_config($dbnames->dbname,$dbnames->dbpropname, $this->language_short);
-    //                 $l10n = json_decode($this->db_config->l10n_json);
-    //                 $featloc = $l10n->emdrosobject->{$dbnames->qoname}; // We only need localization of feature names
-    //             }
-    //             else
-    //                 $featloc = null;
-    //
-    //             $status = empty($resscore) ? 0 : 1;  // 0=no data, 1=data
-    //         }
-    //         else {
-    //             $this->statistics_timeperiod->default_dates();
-    //
-    //             $resscore = null;
-    //             $resfeat = null;
-    //             $featloc = null;
-    //             $status = 2; // 2=Bad data
-    //         }
-    //
-    //         $user_full_name = $this->mod_users->user_full_name($userid);
-    //
-    //         // VIEW:
-    //         $this->load->view('view_top1', array('title' => $this->lang->line('exercise_graphs_title'),
-    //                                              'js_list' => array('RGraph/libraries/RGraph.common.core.js',
-    //                                                                 'RGraph/libraries/RGraph.scatter.js',
-    //                                                                 'RGraph/libraries/RGraph.hbar.js',
-    //                                                                 'RGraph/libraries/RGraph.common.dynamic.js',
-    //                                                                 'RGraph/libraries/RGraph.common.tooltips.js',
-    //                                                                 'RGraph/libraries/RGraph.common.key.js',
-    //                                                                 'js/datepicker_period.js',
-    //                                                                 'js/graphing.js')));
-    //
-    //         $this->load->view('view_top2');
-    //         $this->load->view('view_menu_bar', array('langselect' => true));
-    //
-    //         $center_text = $this->load->view('view_progress_student_exercises', array('resscore' => $resscore,
-    //                                                                                   'resfeat' => $resfeat,
-    //                                                                                   'featloc' => $featloc,
-    //                                                                                   'quiz' => $templ,
-    //                                                                                   'status' => $status,
-    //                                                                                   'userid' => $userid,
-    //                                                                                   'user_full_name' => $user_full_name,
-    //                                                                                   'nongraded' => $nongraded,
-    //                                                                                   'may_see_nongraded' => $may_see_nongraded,
-    //                                                                                   'start_date' => $this->statistics_timeperiod->start_string(),
-    //                                                                                   'end_date' => $this->statistics_timeperiod->end_string(),
-    //                                                                                   'minpoint' => $this->statistics_timeperiod->start_timestamp(),
-    //                                                                                   'maxpoint' => $this->statistics_timeperiod->end_timestamp()), true);
-    //
-    //         $this->load->view('view_main_page', array('left_title' => $this->lang->line('select_period_heading'),
-    //                                                   'left' => $this->lang->line('time_period_description')
-    //                                                             . $this->lang->line('student_exercise_description'),
-    //                                                   'center' => $center_text));
-    //         $this->load->view('view_bottom');
-    //     }
-    //     catch (DataException $e) {
-    //         $this->error_view($e->getMessage(), $this->lang->line('exercise_graphs_title'));
-    //     }
-    // }
-
     // Show the main page for the teacher to check grades of quizzes
     public function teacher_grades() {
     	$this->load->model('mod_users');
@@ -237,12 +120,8 @@ class Ctrl_grades extends MY_Controller {
 
         try {
             $this->mod_users->check_teacher();
-            //echo "LAST QUERY: <br>";
-            //echo var_dump($this->db->last_query()) . '<br>';
-            //echo var_dump($this->db);
 
             $classes = $this->mod_classes->get_named_classes_owned(false);
-            //echo 'classes: ' . var_dump($classes) . '<br>';
 
             $this->load->view('view_top1', array('title' => $this->lang->line('teacher_graphs_title')));
             $this->load->view('view_top2');
@@ -426,9 +305,6 @@ class Ctrl_grades extends MY_Controller {
               // Check for admin if not enrolled
               $this->mod_users->check_teacher();
             }
-
-
-
 
             $this->load->helper('form');
             $this->load->helper('form');
